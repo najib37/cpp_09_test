@@ -6,7 +6,7 @@
 /*   By: nramadan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:18:31 by nramadan          #+#    #+#             */
-/*   Updated: 2023/03/24 17:18:32 by nramadan         ###   ########.fr       */
+/*   Updated: 2023/04/09 15:50:20 by nramadan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ bool Btc::valid_date(const std::string &key)
 	in << key;
     in >> std::get_time(&time, "%Y-%m-%d");
 	out << std::put_time(&time, "%Y-%m-%d");
-	if (!time.tm_mday || !time.tm_year || in.str() != out.str())
+	if (time.tm_mday <= 0 || time.tm_mon + 1 <= 0 || time.tm_year <= 0 || 
+		in.str() != out.str())
 		return false;
 
 	return true;
@@ -160,6 +161,7 @@ void Btc::print_pair(std::string &date, std::string &price)
 {
 	float fnum = check_price_error(price, date);
 	float product;
+	// std::cout << "___________________\n";
 	std::map<std::string, std::string>::iterator it;
 
 	if (fnum == -1)
